@@ -1,0 +1,54 @@
+project: "dbc-reproduce"
+program: dbc/main.py
+method: grid
+name: "AntGoal-v0-ibc"
+
+parameters:
+  alg:
+    value: ibc 
+  ant-noise:
+    value: 0.01 
+  bc-num-epochs:
+    value: 30000 
+  bc-state-norm:
+    value: False 
+  clip-actions:
+    value: True 
+  cuda:
+    value: True 
+  depth:
+    value: 1 
+  env-name:
+    value: AntGoal-v0 
+  eval-interval:
+    value: 100000 
+  eval-num-processes:
+    value: 10 
+  hidden-dim:
+    value: 1200 
+  il-in-action-norm:
+    value: False 
+  il-out-action-norm:
+    value: False 
+  log-interval:
+    value: 200 
+  lr:
+    value: 5e-05 
+  normalize-env:
+    value: False 
+  num-eval:
+    value: 10 
+  num-render:
+    value: 0 
+  prefix:
+    value: ibc 
+  save-interval:
+    value: 100000 
+  seed:
+    values: [1,2,3] 
+  traj-frac:
+    value: 1 
+  traj-load-path:
+    value: /home/mhhsu/dbc-private/expert_datasets/ant_10000.pt 
+  vid-fps:
+    value: 100 

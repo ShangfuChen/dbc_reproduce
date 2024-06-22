@@ -1,0 +1,46 @@
+project: 'dbc-reproduce'
+program: dbc/main.py
+method: grid
+name: "HalfCheetah-v3-ibc"
+
+parameters:
+  alg:
+    value: ibc 
+  bc-num-epochs:
+    value: 10000 
+  bc-state-norm:
+    value: True 
+  clip-actions:
+    value: True 
+  cuda:
+    value: True 
+  depth:
+    value: 2 
+  env-name:
+    value: HalfCheetah-v3 
+  eval-interval:
+    value: 4000 
+  eval-num-processes:
+    value: 10 
+  hidden-dim:
+    value: 512 
+  log-interval:
+    value: 200 
+  lr:
+    value: 0.0001 
+  normalize-env:
+    value: False 
+  num-eval:
+    value: 3 
+  num-render:
+    value: 0 
+  prefix:
+    value: ibc 
+  save-interval:
+    value: 100000 
+  traj-load-path:
+    value: ./expert_datasets/halfcheetah_5trajs_processed.pt 
+  vid-fps:
+    value: 100 
+  seed:
+    values: [1,2,3]

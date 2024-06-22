@@ -1,0 +1,57 @@
+project: 'dbc-reproduce'
+program: dbc/main.py
+method: grid
+name: "Hand-dbc-lambda"
+
+parameters:
+  agent_expert_normalization:
+    values: [True]
+  alg:
+    value: dbc 
+  bc-num-epochs:
+    value: 5000 
+  bc-state-norm:
+    value: True 
+  clip-actions:
+    value: True 
+  coeff:
+    values: [20, 50] 
+  coeff-bc:
+    value: 1 
+  cuda:
+    value: True 
+  ddpm-path:
+    value: rl-toolkit/dm/trained_models/hand_10000_v2_ddpm_3e-05_2048_10000_sigmoid.pt 
+  depth:
+    value: 2 
+  env-name:
+    value: CustomHandManipulateBlockRotateZ-v2 
+  eval-interval:
+    value: 5000
+  eval-num-processes:
+    value: 10
+  hidden-dim:
+    value: 512 
+  log-interval:
+    value: 2000 
+  lr:
+    value: 0.0001 
+  normalize-env:
+    value: False 
+  num-eval:
+    value: 10 
+  num-render:
+    value: 1 
+  prefix:
+    value: dbc 
+  save-interval:
+    value: 10000 
+  traj-load-path:
+    value: ./expert_datasets/hand_10000_v2.pt 
+  vid-fps:
+    value: 100 
+  scheduler-type:
+    value: sigmoid 
+  seed:
+    values: [1,2,3]
+# export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python

@@ -1,0 +1,68 @@
+python dbc/main.py \
+    --alg=dbc \
+    --bc-num-epochs=1000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --coeff=0.2 \
+    --cuda=True \
+    --ddpm-path=rl-toolkit/dm/trained_models/halfcheetah_5trajs_processed_ddpm_0.0002_1024_8000_sigmoid_norm.pt \
+    --env-name=HalfCheetah-v3 \
+    --eval-interval=1000 \
+    --eval-num-processes=10 \
+    --log-interval=200 \
+    --lr=0.0001 \
+    --normalize-env=False \
+    --num-eval=10 \
+    --num-render=0 \
+    --prefix=dbc \
+    --save-interval=100000 \
+    --traj-load-path=./expert_datasets/halfcheetah_5trajs_processed.pt \
+    --hidden-dim 256 \
+    --scheduler-type sigmoid \
+    --seed=1
+
+python dbc/main.py \
+    --alg=dbc \
+    --bc-num-epochs=1000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --coeff=0.2 \
+    --cuda=True \
+    --ddpm-path=rl-toolkit/dm/trained_models/halfcheetah_5trajs_processed_ddpm_0.0002_1024_8000_sigmoid_norm.pt \
+    --env-name=HalfCheetah-v3 \
+    --eval-interval=1000 \
+    --eval-num-processes=10 \
+    --log-interval=200 \
+    --lr=0.0001 \
+    --normalize-env=False \
+    --num-eval=10 \
+    --num-render=0 \
+    --prefix=dbc \
+    --save-interval=100000 \
+    --traj-load-path=./expert_datasets/halfcheetah_5trajs_processed.pt \
+    --hidden-dim 256 \
+    --scheduler-type sigmoid \
+    --seed=2
+
+python dbc/main.py \
+    --alg=dbc \
+    --bc-num-epochs=1000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --coeff=0.2 \
+    --cuda=True \
+    --ddpm-path=rl-toolkit/dm/trained_models/halfcheetah_5trajs_processed_ddpm_0.0002_1024_8000_sigmoid_norm.pt \
+    --env-name=HalfCheetah-v3 \
+    --eval-interval=1000 \
+    --eval-num-processes=10 \
+    --log-interval=200 \
+    --lr=0.0001 \
+    --normalize-env=False \
+    --num-eval=10 \
+    --num-render=0 \
+    --prefix=dbc \
+    --save-interval=100000 \
+    --traj-load-path=./expert_datasets/halfcheetah_5trajs_processed.pt \
+    --hidden-dim 256 \
+    --scheduler-type sigmoid \
+    --seed=3

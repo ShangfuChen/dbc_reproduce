@@ -1,0 +1,65 @@
+python dbc/main.py \
+    --alg=ibc \
+    --bc-num-epochs=10000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --cuda=True \
+    --depth=1 \
+    --env-name=Walker2d-v3 \
+    --eval-interval=4000 \
+    --eval-num-processes=10 \
+    --hidden-dim=1024 \
+    --log-interval=200 \
+    --lr=0.00008 \
+    --normalize-env=False \
+    --num-eval=3 \
+    --num-render=0 \
+    --prefix=ibc \
+    --save-interval=100000 \
+    --traj-load-path=./expert_datasets/walker_5traj_processed.pt \
+    --vid-fps=100 \
+    --seed=1
+
+python dbc/main.py \
+    --alg=ibc \
+    --bc-num-epochs=10000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --cuda=True \
+    --depth=1 \
+    --env-name=Walker2d-v3 \
+    --eval-interval=4000 \
+    --eval-num-processes=10 \
+    --hidden-dim=1024 \
+    --log-interval=200 \
+    --lr=0.00008 \
+    --normalize-env=False \
+    --num-eval=3 \
+    --num-render=0 \
+    --prefix=ibc \
+    --save-interval=100000 \
+    --traj-load-path=./expert_datasets/walker_5traj_processed.pt \
+    --vid-fps=100 \
+    --seed=2
+
+python dbc/main.py \
+    --alg=ibc \
+    --bc-num-epochs=10000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --cuda=True \
+    --depth=1 \
+    --env-name=Walker2d-v3 \
+    --eval-interval=4000 \
+    --eval-num-processes=10 \
+    --hidden-dim=1024 \
+    --log-interval=200 \
+    --lr=0.00008 \
+    --normalize-env=False \
+    --num-eval=3 \
+    --num-render=0 \
+    --prefix=ibc \
+    --save-interval=100000 \
+    --traj-load-path=./expert_datasets/walker_5traj_processed.pt \
+    --vid-fps=100 \
+    --seed=3

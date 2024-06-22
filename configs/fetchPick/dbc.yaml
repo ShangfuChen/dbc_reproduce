@@ -1,0 +1,62 @@
+project: 'dbc-reproduce'
+program: dbc/main.py
+method: grid
+name: Pick-dbc-1.25-lambda
+
+parameters:
+  agent_expert_normalization:
+    values: [True]
+  alg:
+    value: dbc 
+  bc-num-epochs:
+    value: 5000 
+  bc-state-norm:
+    value: True 
+  clip-actions:
+    value: True 
+  coeff:
+    values: [0, 1e-3, 2e-3, 5e-3, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] 
+  coeff-bc:
+    value: 1 
+  cuda:
+    value: True 
+  ddpm-path:
+    value: rl-toolkit/dm/trained_models/pick_10000_clip_ddpm_0.001_1024_10000_sigmoid.pt
+  depth:
+    value: 2 
+  env-name:
+    value: FetchPickAndPlaceDiffHoldout-v0 
+  eval-interval:
+    value: 2000 
+  eval-num-processes:
+    value: 1 
+  hidden-dim:
+    value: 750 
+  log-interval:
+    value: 2000 
+  lr:
+    value: 0.000005 
+  normalize-env:
+    value: False 
+  num-eval:
+    value: 100 
+  num-render:
+    value: 1 
+  prefix:
+    value: dbc 
+  save-interval:
+    value: 10000 
+  traj-load-path:
+    value: ./expert_datasets/pick_10000_clip.pt 
+  vid-fps:
+    value: 100 
+  num-units:
+    value: 1024 
+  scheduler-type:
+    value: sigmoid 
+  noise-ratio:
+    value: 1.25 
+  goal-noise-ratio:
+    value: 1.25 
+  seed:
+    values: [1,2,3]

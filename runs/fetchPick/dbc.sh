@@ -1,0 +1,86 @@
+python dbc/main.py \
+    --alg=dbc \
+    --bc-num-epochs=5000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --coeff=0.5 \
+    --coeff-bc=1 \
+    --cuda=True \
+    --ddpm-path=rl-toolkit/dm/trained_models/pick_10000_clip_ddpm_0.001_1024_10000_sigmoid.pt \
+    --depth=2 \
+    --env-name=FetchPickAndPlaceDiffHoldout-v0 \
+    --eval-interval=2000 \
+    --eval-num-processes=1 \
+    --hidden-dim=750 \
+    --log-interval=2000 \
+    --lr=0.000005 \
+    --normalize-env=False \
+    --num-eval=100 \
+    --num-render=1 \
+    --prefix=dbc \
+    --save-interval=10000 \
+    --traj-load-path=./expert_datasets/pick_10000_clip.pt \
+    --vid-fps=100 \
+    --num-units 1024 \
+    --scheduler-type sigmoid \
+    --noise-ratio=1.25 \
+    --goal-noise-ratio=1.25 \
+    --seed=1
+
+python dbc/main.py \
+    --alg=dbc \
+    --bc-num-epochs=5000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --coeff=0.5 \
+    --coeff-bc=1 \
+    --cuda=True \
+    --ddpm-path=rl-toolkit/dm/trained_models/pick_10000_clip_ddpm_0.001_1024_10000_sigmoid.pt \
+    --depth=2 \
+    --env-name=FetchPickAndPlaceDiffHoldout-v0 \
+    --eval-interval=2000 \
+    --eval-num-processes=1 \
+    --hidden-dim=750 \
+    --log-interval=2000 \
+    --lr=0.000005 \
+    --normalize-env=False \
+    --num-eval=100 \
+    --num-render=1 \
+    --prefix=dbc \
+    --save-interval=10000 \
+    --traj-load-path=./expert_datasets/pick_10000_clip.pt \
+    --vid-fps=100 \
+    --num-units 1024 \
+    --scheduler-type sigmoid \
+    --noise-ratio=1.25 \
+    --goal-noise-ratio=1.25 \
+    --seed=2
+
+python dbc/main.py \
+    --alg=dbc \
+    --bc-num-epochs=5000 \
+    --bc-state-norm=True \
+    --clip-actions=True \
+    --coeff=0.5 \
+    --coeff-bc=1 \
+    --cuda=True \
+    --ddpm-path=rl-toolkit/dm/trained_models/pick_10000_clip_ddpm_0.001_1024_10000_sigmoid.pt \
+    --depth=2 \
+    --env-name=FetchPickAndPlaceDiffHoldout-v0 \
+    --eval-interval=2000 \
+    --eval-num-processes=1 \
+    --hidden-dim=750 \
+    --log-interval=2000 \
+    --lr=0.000005 \
+    --normalize-env=False \
+    --num-eval=100 \
+    --num-render=1 \
+    --prefix=dbc \
+    --save-interval=10000 \
+    --traj-load-path=./expert_datasets/pick_10000_clip.pt \
+    --vid-fps=100 \
+    --num-units 1024 \
+    --scheduler-type sigmoid \
+    --noise-ratio=1.25 \
+    --goal-noise-ratio=1.25 \
+    --seed=3

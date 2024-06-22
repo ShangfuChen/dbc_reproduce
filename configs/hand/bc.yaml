@@ -1,0 +1,46 @@
+project: 'dbc-reproduce'
+program: dbc/main.py
+method: grid
+name: "Hand-bc"
+
+parameters:
+  alg:
+    value: bc 
+  bc-num-epochs:
+    value: 5000 
+  bc-state-norm:
+    value: True 
+  clip-actions:
+    value: True 
+  cuda:
+    value: True 
+  depth:
+    value: 2 
+  env-name:
+    value: CustomHandManipulateBlockRotateZ-v2 
+  eval-interval:
+    value: 3000 
+  eval-num-processes:
+    value: 10 
+  hidden-dim:
+    value: 512 
+  log-interval:
+    value: 1000 
+  lr:
+    value: 1e-04 
+  normalize-env:
+    value: False 
+  num-eval:
+    value: 10 
+  num-render:
+    value: 1 
+  prefix:
+    value: bc 
+  save-interval:
+    value: 100000 
+  traj-load-path:
+    value: ./expert_datasets/hand_10000_v2.pt 
+  vid-fps:
+    value: 100 
+  seed:
+    values: [1,2,3]
