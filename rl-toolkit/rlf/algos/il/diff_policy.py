@@ -200,7 +200,6 @@ class DiffPolicy(BaseILAlgo):
         #########################################
         # New args
         parser.add_argument("--bc-num-epochs", type=int, default=1)
-        parser.add_argument("--bc-state-norm", type=str2bool, default=False)
         parser.add_argument("--bc-noise", type=float, default=None)
         parser.add_argument("--lambda-bc", type=float, default=1)
         parser.add_argument("--lambda-dm", type=float, default=1)

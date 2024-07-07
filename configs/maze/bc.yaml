@@ -8,8 +8,6 @@ parameters:
     value: bc 
   bc-num-epochs:
     value: 2000 
-  bc-state-norm:
-    value: False 
   clip-actions:
     value: True 
   coeff:
@@ -28,10 +26,6 @@ parameters:
     value: 1 
   hidden-dim:
     value: 256 
-  il-in-action-norm:
-    value: False 
-  il-out-action-norm:
-    value: False 
   log-interval:
     value: 200 
   lr:
@@ -45,15 +39,13 @@ parameters:
   save-interval:
     value: 20000 
   traj-load-path:
-    value: ./expert_datasets/maze2d_100.pt 
+    value: ./expert_datasets/maze.pt 
   vid-fps:
     value: 60 
   log-diff-loss:
     value: True 
   prefix:
-    value: bc-100 
-  ddpm-path:
-    value: ./rl-toolkit/dm/trained_models/maze2d_100_ddpm_0.0001_128_sigmoid_norm.pt 
+    value: bc
   bc-state-norm:
     value: True 
   il-in-action-norm:

@@ -402,7 +402,6 @@ class DBC(BaseILAlgo):
         #########################################
         # New args
         parser.add_argument("--bc-num-epochs", type=int, default=1)
-        parser.add_argument("--bc-state-norm", type=str2bool, default=False)
         parser.add_argument("--bc-noise", type=float, default=None)
         parser.add_argument('--fix-step-when-get-loss', type=str2bool, default=False)
         parser.add_argument('--fix-range-when-get-loss', type=str2bool, default=False)

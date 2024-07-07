@@ -29,21 +29,22 @@ def add_args(parser):
     parser.add_argument(
         "--log-interval",
         type=int,
-        default=1,
+        default=500,
         help="log interval, one log per n updates (default: 1)",
-    )
-    parser.add_argument(
-        "--save-interval",
-        type=int,
-        default=-1,
-        help="save interval, one save per n updates (default: 100)",
     )
     parser.add_argument(
         "--eval-interval",
         type=int,
-        default=-1,
+        default=2000,
         help="eval interval, one eval per n updates (default: None)",
     )
+    parser.add_argument(
+        "--save-interval",
+        type=int,
+        default=20000,
+        help="save interval, one save per n updates (default: 100)",
+    )
+
 
     #############################
     # RUN CONFIG
@@ -122,12 +123,12 @@ def add_args(parser):
         help="compute returns taking into account time limits",
     )
 
-    parser.add_argument(
-        "--num-steps",
-        type=int,
-        default=128,
-        help="number of forward steps in A2C/PPO (old default: 128)",
-    )
+    # parser.add_argument(
+    #     "--num-steps",
+    #     type=int,
+    #     default=128,
+    #     help="number of forward steps in A2C/PPO (old default: 128)",
+    # )
 
     parser.add_argument(
         "--seed", type=int, default=1, help="random seed (default: 1)"
@@ -163,7 +164,7 @@ def add_args(parser):
             eval-num-processes must be 1.
             """,
     )
-    parser.add_argument("--num-eval", type=int, default=5)
+    parser.add_argument("--num-eval", type=int, default=10)
     parser.add_argument(
         "--log-smooth-len",
         type=int,
@@ -184,10 +185,10 @@ def add_args(parser):
     parser.add_argument(
         "--eval-num-processes",
         type=int,
-        default=None,
+        default=10,
         help="# of evaluation processes. When None use the same # as in non-evaluation",
     )
-    parser.add_argument("--vid-fps", type=float, default=30.0)
+    parser.add_argument("--vid-fps", type=float, default=60.0)
     parser.add_argument("--vid-dir", type=str, default="./data/vids")
 
     #############################
@@ -211,8 +212,8 @@ def add_args(parser):
     #############################
     # ENV
     #############################
-    parser.add_argument("--normalize-env", type=str2bool, default=True)
-    parser.add_argument("--clip-actions", type=str2bool, default=False)
+    parser.add_argument("--normalize-env", type=str2bool, default=False)
+    parser.add_argument("--clip-actions", type=str2bool, default=True)
     parser.add_argument("--frame-stack", type=str2bool, default=False)
     parser.add_argument("--policy-ob-key", type=str, default="observation")
     parser.add_argument("--force-multi-proc", type=str2bool, default=False)
