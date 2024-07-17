@@ -11,10 +11,11 @@ from rlf import run_policy, evaluate_policy
 from rlf.algos import BaseAlgo, BehavioralCloning, DBC
 from rlf.algos.il.base_il import BaseILAlgo
 from rlf.algos.nested_algo import NestedAlgo
-from rlf.args import str2bool
 from rlf.policies import BasicPolicy
+from rlf.args import str2bool
 from rlf.rl.loggers.base_logger import BaseLogger
-from rlf.rl.loggers.wb_logger import WbLogger, get_wb_ray_config, get_wb_ray_kwargs
+from rlf.rl.loggers.wb_logger import WbLogger
+# from rlf.rl.loggers.wb_logger import WbLogger, get_wb_ray_config, get_wb_ray_kwargs
 from rlf.rl.model import MLPBase, MLPBasic
 from rlf.run_settings import RunSettings
 
@@ -53,18 +54,8 @@ def get_basic_policy(env_name, args, is_stoch):
 
 def get_setup_dict():
     return {
-        # main experiments & baselines
         "bc": (BehavioralCloning(), partial(get_basic_policy, is_stoch=False)),
-        # "ibc": (IBC(), partial(get_ibc_policy, is_stoch=False)),
-        # "dp": (DiffPolicy(), partial(get_diffusion_policy, is_stoch=False)),
         "dbc": (DBC(), partial(get_basic_policy, is_stoch=False)),
-        # generative model experiments
-        # "eng-bc": (Eng_bc(), partial(get_basic_policy, is_stoch=False)),
-        # "gan-bc": (GANBC(), partial(get_basic_policy, is_stoch=False)),
-        # "ae-bc": (Ae_bc(), partial(get_basic_policy, is_stoch=False)),
-        # RL policy for collecting expert data
-        # "ppo": (PPO(), get_ppo_policy),
-        # "sac": (SAC(), get_deep_sac_policy),
     }
 
 
@@ -99,7 +90,6 @@ class DBCSettings(RunSettings):
         parser.add_argument("--hidden-dim", type=int, default=512)
         parser.add_argument("--depth", type=int, default=3)
         parser.add_argument("--weight-decay", type=float, default=0.0)
-        parser.add_argument("--stochastic-optimizer-train_samples", type=int, default=64)
         parser.add_argument("--rnd-id", type=str, default='default')
         parser.add_argument("--collect-all", type=str2bool, default=False)
         parser.add_argument("--bc-state-norm", type=str2bool, default=True)
@@ -108,16 +98,6 @@ class DBCSettings(RunSettings):
     def import_add(self):
         import dbc.envs.fetch
         import dbc.envs.goal_check
-
-    # def get_add_ray_config(self, config):
-    #     if self.base_args.no_wb:
-    #         return config
-    #     return get_wb_ray_config(config)
-
-    # def get_add_ray_kwargs(self):
-    #     if self.base_args.no_wb:
-    #         return {}
-    #     return get_wb_ray_kwargs()
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 /experiments
 /rl-toolkit/dm_backup
 /backup
+/data
 *.pyc
 *.mp4
 *.png

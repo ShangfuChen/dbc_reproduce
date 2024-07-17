@@ -16,40 +16,38 @@ from tqdm import tqdm
 #     return torch.linspace(beta_start, beta_end, timesteps)
 
 
-def linear_beta_schedule(timesteps):
-    """
-    https://blog.csdn.net/g11d111/article/details/131326934
-    linear schedule, proposed in original ddpm paper
-    """
-    scale = 1000 / timesteps
-    beta_start = scale * 0.0001
-    beta_end = scale * 0.02
-    return torch.linspace(beta_start, beta_end, timesteps)
+# def linear_beta_schedule(timesteps):
+#     """
+#     https://blog.csdn.net/g11d111/article/details/131326934
+#     linear schedule, proposed in original ddpm paper
+#     """
+#     scale = 1000 / timesteps
+#     beta_start = scale * 0.0001
+#     beta_end = scale * 0.02
+#     return torch.linspace(beta_start, beta_end, timesteps)
 
 
-def cosine_beta_schedule(timesteps, s=0.008):
-    """
-    cosine schedule as proposed in https://arxiv.org/abs/2102.09672
-    """
-    steps = timesteps + 1
-    x = torch.linspace(0, timesteps, steps)
-    alphas_cumprod = torch.cos(((x / timesteps) + s) / (1 + s) * torch.pi * 0.5) ** 2
-    alphas_cumprod = alphas_cumprod / alphas_cumprod[0]
-    betas = 1 - (alphas_cumprod[1:] / alphas_cumprod[:-1])
-    return torch.clip(betas, 0.0001, 0.9999)
+# def cosine_beta_schedule(timesteps, s=0.008):
+#     """
+#     cosine schedule as proposed in https://arxiv.org/abs/2102.09672
+#     """
+#     steps = timesteps + 1
+#     x = torch.linspace(0, timesteps, steps)
+#     alphas_cumprod = torch.cos(((x / timesteps) + s) / (1 + s) * torch.pi * 0.5) ** 2
+#     alphas_cumprod = alphas_cumprod / alphas_cumprod[0]
+#     betas = 1 - (alphas_cumprod[1:] / alphas_cumprod[:-1])
+#     return torch.clip(betas, 0.0001, 0.9999)
 
+# def quadratic_beta_schedule(timesteps):
+#     beta_start = 0.0001
+#     beta_end = 0.03  # 0.02
+#     return torch.linspace(beta_start**0.5, beta_end**0.5, timesteps) ** 2
 
 def sigmoid_beta_schedule(timesteps):
     beta_start = 0.0001
     beta_end = 0.02
     betas = torch.linspace(-6, 6, timesteps)
     return torch.sigmoid(betas) * (beta_end - beta_start) + beta_start
-
-
-def quadratic_beta_schedule(timesteps):
-    beta_start = 0.0001
-    beta_end = 0.03  # 0.02
-    return torch.linspace(beta_start**0.5, beta_end**0.5, timesteps) ** 2
 
 
 def str2bool(v):
@@ -164,14 +162,14 @@ def reconstruct(model, x_0, alphas_bar_sqrt, one_minus_alphas_bar_sqrt, n_steps)
 if __name__ == "__main__":
     # Create the environment
     parser = argparse.ArgumentParser()
-    parser.add_argument('--traj-load-path', type=str, default='expert_datasets/maze2d_100.pt')
+    parser.add_argument('--traj-load-path', type=str, default='expert_datasets/maze.pt')
     parser.add_argument('--hidden-dim', type=int, default=128)
     parser.add_argument('--depth', type=int, default=4)
-    parser.add_argument('--norm', type=str2bool, default=False)
+    parser.add_argument('--norm', type=str2bool, default=True)
     parser.add_argument('--lr', type=float, default=1e-4)
-    parser.add_argument('--scheduler-type', type=str, default='linear')
-    parser.add_argument('--achieve-range', type=float, default=0.1)
-    parser.add_argument('--data', type=int, default=100)
+    # parser.add_argument('--scheduler-type', type=str, default='linear')
+    # parser.add_argument('--achieve-range', type=float, default=0.1)
+    # parser.add_argument('--data', type=int, default=100)
     parser.add_argument('--num-epoch', type=int, default=8000)
     parser.add_argument('--prefix', type=str, default='')
     args = parser.parse_args()
@@ -182,23 +180,31 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size = 128 #128
     num_epoch = args.num_epoch
+    num_steps = 1000
+    betas = sigmoid_beta_schedule(num_steps)
 
+    model_save_path = 'data/dm/trained_models'
+    if not os.path.exists(model_save_path):
+        os.makedirs(model_save_path, exist_ok=True)
+    image_save_path = 'data/dm/trained_imgs'
+    if not os.path.exists(image_save_path):
+        os.makedirs(image_save_path, exist_ok=True)
     # decide beta
-    if args.scheduler_type == 'short-linear':
-        num_steps = 100
-        betas = linear_beta_schedule(num_steps)
-    if args.scheduler_type == 'linear':
-        num_steps = 1000
-        betas = linear_beta_schedule(num_steps)
-    elif args.scheduler_type == "cosine":
-        num_steps = 100
-        betas = cosine_beta_schedule(num_steps)
-    elif args.scheduler_type == "sigmoid":
-        num_steps = 1000
-        betas = sigmoid_beta_schedule(num_steps)
-    elif args.scheduler_type == "quadratic":
-        num_steps = 1000
-        betas = quadratic_beta_schedule(num_steps)
+    # if args.scheduler_type == 'short-linear':
+    #     num_steps = 100
+    #     betas = linear_beta_schedule(num_steps)
+    # if args.scheduler_type == 'linear':
+    #     num_steps = 1000
+    #     betas = linear_beta_schedule(num_steps)
+    # elif args.scheduler_type == "cosine":
+    #     num_steps = 100
+    #     betas = cosine_beta_schedule(num_steps)
+    # elif args.scheduler_type == "sigmoid":
+    #     num_steps = 1000
+    #     betas = sigmoid_beta_schedule(num_steps)
+    # elif args.scheduler_type == "quadratic":
+    #     num_steps = 1000
+    #     betas = quadratic_beta_schedule(num_steps)
     betas = torch.clip(betas, 0.0001, 0.9999).to(device)
 
     # calculate alpha、alpha_prod、alpha_prod_previous、alpha_bar_sqrt
@@ -221,8 +227,7 @@ if __name__ == "__main__":
     )
     print("all the same shape", betas.shape)
 
-    #env = args.traj_load_path.split('/')[-1][:-3]
-    env = args.traj_load_path.split('/')[-3].replace('-', '_')
+    env = args.traj_load_path.split('/')[-1][:-3]
     data = torch.load(args.traj_load_path)
     # Demonstration normalization
     obs = data["obs"]
@@ -289,17 +294,17 @@ if __name__ == "__main__":
                 fig, axs = plt.subplots(1, 2, figsize=(14, 6))
                 axs[0].scatter(dataset[:5000, 0], dataset[:5000, 1], color='blue', edgecolor='white')
                 axs[1].scatter(out[:5000, 0], out[:5000, 1], color='red', edgecolor='white')
-                plt.savefig(f'rl-toolkit/dm/trained_imgs/{env}-pos_{args.depth}_{args.num_epoch}_{args.lr}_{args.scheduler_type}_{args.achieve_range}_{args.data}.png')
+                plt.savefig(f'data/dm/trained_imgs/{env}-pos.png')
                 plt.close()
         if t % 20 == 0:
             train_iteration_list = list(range(len(train_loss_list)))
             plt.plot(train_iteration_list, train_loss_list, color='r')
             plt.xlabel('Epoch')
             plt.ylabel('Loss')
-            plt.title(env + '_ddpm_loss.png')
-            plt.savefig(f'rl-toolkit/dm/trained_imgs/{env}_ddpm_loss_{args.depth}_{args.num_epoch}_{args.lr}_{args.scheduler_type}_{args.achieve_range}_{args.data}.png')
+            plt.title(env + '_ddpm_loss')
+            plt.savefig(f'data/dm/trained_imgs/{env}_ddpm_loss.png')
             plt.close()    
         if t % 1000 == 0:
-            torch.save(model.state_dict(), f'rl-toolkit/dm/trained_models/{env}_ddpm_{args.depth}_{args.num_epoch}_{args.lr}_{args.scheduler_type}_{args.achieve_range}_{args.data}.pt')
-    torch.save(model.state_dict(), f'rl-toolkit/dm/trained_models/{env}_ddpm_{args.depth}_{args.num_epoch}_{args.lr}_{args.scheduler_type}_{args.achieve_range}_{args.data}.pt')
+            torch.save(model.state_dict(), f'data/dm/trained_models/{env}_ddpm.pt')
+    torch.save(model.state_dict(), f'data/dm/trained_models/{env}_ddpm.pt')
 

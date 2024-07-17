@@ -5,52 +5,12 @@ name: "Maze-bc"
 
 parameters:
   alg:
-    value: bc 
-  bc-num-epochs:
-    value: 2000 
-  clip-actions:
-    value: True 
-  coeff:
-    value: 0 
-  coeff-bc:
-    value: 1 
-  cuda:
-    value: True 
-  depth:
-    value: 3 
+    value: bc
   env-name:
     value: maze2d-medium-v2 
-  eval-interval:
-    value: 2000 
-  eval-num-processes:
-    value: 1 
-  hidden-dim:
-    value: 256 
-  log-interval:
-    value: 200 
   lr:
     value: 0.00005 
-  normalize-env:
-    value: False 
-  num-eval:
-    value: 100 
-  num-render:
-    value: 3 
-  save-interval:
-    value: 20000 
   traj-load-path:
     value: ./expert_datasets/maze.pt 
-  vid-fps:
-    value: 60 
-  log-diff-loss:
-    value: True 
-  prefix:
-    value: bc
-  bc-state-norm:
-    value: True 
-  il-in-action-norm:
-    value: True 
-  il-out-action-norm:
-    value: True 
   seed:
     values: [1,2,3]

@@ -14,9 +14,7 @@ from rlf.args import str2bool
 from rlf.storage.base_storage import BaseStorage
 from tqdm import tqdm
 import wandb
-from dm import ddpm
-from dm import ddpm_norm
-from dm import ddpm_ant
+from dbc import ddpm
 import math
 
 # def linear_beta_schedule(timesteps):
