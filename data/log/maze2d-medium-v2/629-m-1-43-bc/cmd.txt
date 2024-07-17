@@ -1,1 +1,0 @@
-python3 main.py --alg=bc --env-name=maze2d-medium-v2 --traj-load-path=./expert_datasets/maze.pt --prefix=bc
