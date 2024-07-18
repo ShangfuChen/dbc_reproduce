@@ -27,7 +27,7 @@ import dbc.envs.gridworld
 import dbc.envs.hand
 import dbc.gym_minigrid
 from dbc.envs.goal_traj_saver import GoalTrajSaver
-from dbc.method.utils import trim_episodes_trans
+from dbc.utils import trim_episodes_trans
 from dbc.models import GwImgEncoder
 from dbc.policies.grid_world_expert import GridWorldExpert
 from typing import Dict, Optional, Tuple

@@ -1,62 +1,28 @@
 project: 'dbc-reproduce'
 program: dbc/main.py
 method: grid
-name: "Maze-dbc-lambda"
+name: "Maze-dbc"
 
 parameters:
-  agent_expert_normalization:
-    values: [True]
   alg:
     value: dbc 
   bc-num-epochs:
-    value: 2000 
-  bc-state-norm:
-    value: True 
-  clip-actions:
-    value: True 
-  coeff:
-    values: [0, 1e-3, 2e-3, 5e-3, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] 
-  coeff-bc:
-    value: 1 
-  cuda:
-    value: True 
-  ddpm-path:
-    value: rl-toolkit/dm/trained_models/maze2d_100_ddpm_0.0001_128_8000_sigmoid.pt
+    value: 2000
   depth:
     value: 3 
+  hidden-dim:
+    value: 256
+  coeff:
+    value: 30 
+  coeff-bc:
+    value: 1 
+  ddpm-path:
+    value: data/dm/trained_models/maze_ddpm.pt
   env-name:
     value: maze2d-medium-v2 
-  eval-interval:
-    value: 2000
-  eval-num-processes:
-    value: 10 
-  hidden-dim:
-    value: 256 
-  il-in-action-norm:
-    value: True 
-  il-out-action-norm:
-    value: True 
-  log-interval:
-    value: 200 
   lr:
     value: 0.00005 
-  normalize-env:
-    value: False 
-  num-eval:
-    value: 10 
-  num-render:
-    value: 0 
-  save-interval:
-    value: 20000 
   traj-load-path:
-    value: ./expert_datasets/maze2d_100.pt 
-  vid-fps:
-    value: 60 
-  traj-batch-size:
-    value: 128 
-  scheduler-type:
-    value: sigmoid 
-  prefix:
-    value: dbc 
+    value: ./expert_datasets/maze.pt 
   seed:
-    values: [1,2,3]
+    values: [1, 2, 3]

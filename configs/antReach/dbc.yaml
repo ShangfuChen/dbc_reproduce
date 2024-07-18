@@ -1,62 +1,30 @@
 project: "dbc-reproduce"
 program: dbc/main.py
 method: grid
-name: "AntGoal-v0-dbc-TESTING"
+name: "Ant-dbc"
 
 parameters:
-  agent_expert_normalization:
-    values: [True, False]
   alg:
     value: dbc 
   ant-noise:
     value: 0.01 
   bc-num-epochs:
-    value: 10000 
-  bc-state-norm:
-    value: False 
-  clip-actions:
-    value: True 
-  coeff:
-    value: 1 # values: [0, 1e-3, 2e-3, 5e-3, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] 
-  cuda:
-    value: True 
-  ddpm-path:
-    value: rl-toolkit/dm/trained_models/ant_10000_ddpm_0.0002_1024_20000_sigmoid.pt
+    value: 10000
   depth:
-    value: 2 
+    value: 2
+  hidden-dim:
+    value: 1024
+  coeff:
+    value: 1
+  ddpm-path:
+    value: data/dm/trained_models/ant_ddpm.pt
   env-name:
     value: AntGoal-v0 
-  eval-interval:
-    value: 10000 
-  eval-num-processes:
-    value: 10 
-  hidden-dim:
-    value: 1024 
-  il-in-action-norm:
-    value: False 
-  il-out-action-norm:
-    value: False 
-  log-interval:
-    value: 200 
   lr:
     value: 0.006 
-  normalize-env:
-    value: False 
-  num-eval:
-    value: 10 
-  num-render:
-    value: 0 
-  prefix:
-    value: dbc 
-  save-interval:
-    value: 30000 
-  scheduler-type:
-    value: sigmoid 
   seed:
-    values: [1] 
-  traj-frac:
-    value: 1 
+    values: [1, 2, 3] 
   traj-load-path:
-    value: ./expert_datasets/ant_10000.pt 
+    value: ./expert_datasets/ant.pt 
   vid-fps:
     value: 100

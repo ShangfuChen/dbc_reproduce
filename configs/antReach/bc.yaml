@@ -1,7 +1,7 @@
 project: "dbc-reproduce"
 program: dbc/main.py
 method: grid
-name: "AntGoal-v0-bc"
+name: "Ant-bc"
 
 parameters:
   alg:
@@ -9,42 +9,18 @@ parameters:
   ant-noise:
     value: 0.01 
   bc-num-epochs:
-    value: 10000 
-  bc-state-norm:
-    value: False 
-  clip-actions:
-    value: True 
-  cuda:
-    value: True 
+    value: 10000
+  depth:
+    value: 2
+  hidden-dim:
+    value: 1024
   env-name:
     value: AntGoal-v0 
-  eval-interval:
-    value: 30000 
-  eval-num-processes:
-    value: 10 
-  il-in-action-norm:
-    value: False 
-  il-out-action-norm:
-    value: False 
-  log-interval:
-    value: 200 
   lr:
     value: 0.006 
-  normalize-env:
-    value: False 
-  num-eval:
-    value: 10 
-  num-render:
-    value: 0 
-  prefix:
-    value: bc 
-  save-interval:
-    value: 100000 
   seed:
-    values: [1,2,3] 
-  traj-frac:
-    value: 1 
+    values: [1, 2, 3] 
   traj-load-path:
-    value: /home/mhhsu/dbc-private/expert_datasets/ant_10000.pt 
+    value: ./expert_datasets/ant.pt 
   vid-fps:
     value: 100

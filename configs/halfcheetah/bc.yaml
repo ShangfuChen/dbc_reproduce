@@ -1,42 +1,22 @@
 project: 'dbc-reproduce'
 program: dbc/main.py
 method: grid
-name: "HalfCheetah-v3-bc"
+name: "HalfCheetah-bc"
 
 parameters:
   alg:
     value: bc 
   bc-num-epochs:
-    value: 1000 
-  bc-state-norm:
-    value: True 
-  clip-actions:
-    value: True 
-  cuda:
-    value: True 
-  env-name:
-    value: HalfCheetah-v3 
-  eval-interval:
-    value: 1000 
-  eval-num-processes:
-    value: 10 
-  log-interval:
-    value: 200 
-  lr:
-    value: 0.0001 
-  normalize-env:
-    value: False 
-  num-eval:
-    value: 10 
-  num-render:
-    value: 0 
-  prefix:
-    value: bc 
-  save-interval:
-    value: 100000 
-  traj-load-path:
-    value: ./expert_datasets/halfcheetah_5trajs_processed.pt 
+    value: 1000
+  depth:
+    value: 2
   hidden-dim:
     value: 256 
+  env-name:
+    value: HalfCheetah-v3 
+  lr:
+    value: 0.0001
+  traj-load-path:
+    value: ./expert_datasets/halfcheetah.pt 
   seed:
-    values: [1,2,3]
+    values: [1, 2, 3]

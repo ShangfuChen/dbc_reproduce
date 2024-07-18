@@ -47,44 +47,44 @@ We specify how to train diffusion models and the location of configuration files
 ### Maze2D
 
 - Ours:
-    1. DM pretraining: `./runs/maze/train_dm.sh`
-    2. Policy learning: `./runs/maze/dbc.sh` or `./wandb.sh ./configs/maze/dbc.yaml`
-- BC: `./runs/maze/bc.sh` or `./wandb.sh ./configs/maze/bc.yaml`
+    1. DM pretraining: ` python dbc/ddpm.py --traj-load-path expert_datasets/maze.pt --num-epoch 8000 --lr 0.0001 --hidden-dim 128`
+    2. Policy learning: `./wandb.sh ./configs/maze/dbc.yaml`
+- BC: `./wandb.sh ./configs/maze/bc.yaml`
 
 ### Fetch Pick
 
 - Ours:
-    1. DM pretraining: `./runs/fetchPick/train_dm.sh`
-    2. Policy learning: `./runs/fetchPick/dbc.sh` or `./wandb.sh ./configs/fetchPick/dbc.yaml`
-- BC: `./runs/fetchPick/bc.sh` or `./wandb.sh ./configs/fetchPick/bc.yaml`
+    1. DM pretraining: `python dbc/ddpm.py --traj-load-path expert_datasets/pick.pt --num-epoch 10000 --lr 0.001 --hidden-dim 1024  `
+    2. Policy learning: `./wandb.sh ./configs/fetchPick/dbc.yaml`
+- BC: `./wandb.sh ./configs/fetchPick/bc.yaml`
 
 ### Hand Rotate
 
 - Ours:
-    1. DM pretraining: `./runs/hand/train_dm.sh`
-    2. Policy learning: `./runs/hand/dbc.sh` or `./wandb.sh ./configs/hand/dbc.yaml`
-- BC: `./runs/hand/bc.sh` or `./wandb.sh ./configs/hand/bc.yaml`
+    1. DM pretraining: `python dbc/ddpm.py --traj-load-path expert_datasets/hand.pt --num-epoch 10000 --lr 0.00003 --hidden-dim 2048`
+    2. Policy learning: `./wandb.sh ./configs/hand/dbc.yaml`
+- BC: `./wandb.sh ./configs/hand/bc.yaml`
 
 ### Half Cheetah
 
 - Ours:
-    1. DM pretraining: `./runs/halfcheetah/train_dm.sh`
-    2. Policy learning: `./runs/halfcheetah/dbc.sh` or `./wandb.sh ./configs/halfcheetah/dbc.yaml`
-- BC: `./runs/halfcheetah/bc.sh` or `./wandb.sh ./configs/halfcheetah/bc.yaml`
+    1. DM pretraining: `python dbc/ddpm.py --traj-load-path expert_datasets/halfcheetah.pt --num-epoch 8000 --lr 0.0002 --hidden-dim 1024`
+    2. Policy learning: `./wandb.sh ./configs/halfcheetah/dbc.yaml`
+- BC: `./wandb.sh ./configs/halfcheetah/bc.yaml`
 
 ### Walker
 
 - Ours:
-    1. DM pretraining: `./runs/walker/train_dm.sh`
-    2. Policy learning: `./runs/walker/dbc.sh` or `./wandb.sh ./configs/walker/dbc.yaml`
-- BC: `./runs/walker/bc.sh` or `./wandb.sh ./configs/walker/bc.yaml`
+    1. DM pretraining: ` python dbc/ddpm.py --traj-load-path expert_datasets/walker.pt --num-epoch 8000 --lr 0.0002 --hidden-dim 1024`
+    2. Policy learning: `./wandb.sh ./configs/walker/dbc.yaml`
+- BC: `./wandb.sh ./configs/walker/bc.yaml`
 
 ### Ant Goal
 
 - Ours:
-    1. DM pretraining: `./runs/antReach/train_dm.sh`
-    2. Policy learning: `./runs/antReach/dbc.sh` or `./wandb.sh ./configs/antReach/dbc.yaml`
-- BC: `./runs/antReach/bc.sh` or `./wandb.sh ./configs/antReach/bc.yaml`
+    1. DM pretraining: `python dbc/ddpm.py --traj-load-path expert_datasets/ant.pt --num-epoch 8000 --lr 0.0002 --hidden-dim 1024`
+    2. Policy learning: `./wandb.sh ./configs/antReach/dbc.yaml`
+- BC: `./wandb.sh ./configs/antReach/bc.yaml`
 
 ## Code Structure
 

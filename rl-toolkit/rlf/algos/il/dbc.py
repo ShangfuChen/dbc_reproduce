@@ -105,19 +105,19 @@ class DBC(BaseILAlgo):
             dim = 8
             self.diff_model = ddpm.MLPDiffusion(num_steps,
                                                 input_dim=dim,
-                                                num_units=self.args.num_units,
+                                                num_units=128,
                                                 depth=self.args.ddpm_depth).to(self.args.device)
         elif args.env_name[:9] == 'FetchPick':
             dim = 20
             self.diff_model = ddpm.MLPDiffusion(num_steps,
                                                      input_dim=dim,
-                                                     num_units=self.args.num_units,
+                                                     num_units=1024,
                                                      depth=self.args.ddpm_depth).to(self.args.device)
         elif args.env_name[:9] == 'FetchPush':
             dim = 19
             self.diff_model = ddpm.MLPDiffusion(num_steps, 
                                                      input_dim=dim,
-                                                     num_units=self.args.num_units,
+                                                     num_units=1024,
                                                      depth=self.args.ddpm_depth).to(self.args.device)
         elif args.env_name[:10] == 'CustomHand':
             dim = 88
@@ -137,7 +137,7 @@ class DBC(BaseILAlgo):
                                                 num_units=1024).to(self.args.device)
         elif args.env_name[:3] == 'Ant':
             dim = 50
-            self.diff_model = ddpm_ant.MLPDiffusion(num_steps, input_dim = dim).to(self.args.device)
+            self.diff_model = ddpm.MLPDiffusion(num_steps, input_dim = dim).to(self.args.device)
         weight_path = self.args.ddpm_path
         self.diff_model.load_state_dict(torch.load(weight_path))
 

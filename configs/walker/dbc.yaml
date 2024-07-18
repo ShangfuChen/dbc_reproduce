@@ -1,47 +1,27 @@
 project: 'dbc-reproduce'
 program: dbc/main.py
 method: grid
-name: Walker-dbc-lambda
+name: Walker-dbc
 
 parameters:
-  agent_expert_normalization:
-    values: [True]
   alg:
     value: dbc 
   bc-num-epochs:
-    value: 1000 
-  bc-state-norm:
-    value: True 
-  clip-actions:
-    value: True 
+    value: 1000
+  depth:
+    value: 2
+  hidden-dim:
+    value: 1024
   coeff:
-    values: [0, 1e-3, 2e-3, 5e-3, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] 
-  cuda:
-    value: True 
+    value:  0.2
   ddpm-path:
-    value: rl-toolkit/dm/trained_models/walker_5traj_processed_ddpm_0.0002_1024_8000_sigmoid.pt
+    value: data/dm/trained_models/walker_ddpm.pt
   env-name:
     value: Walker2d-v3 
-  eval-interval:
-    value: 2000
-  eval-num-processes:
-    value: 10 
-  log-interval:
-    value: 200 
   lr:
-    value: 0.0001 
-  normalize-env:
-    value: False 
-  num-eval:
-    value: 10 
-  num-render:
-    value: 0 
-  prefix:
-    value: dbc 
-  save-interval:
-    value: 100000 
+    value: 0.0001
   traj-load-path:
-    value: ./expert_datasets/walker_5traj_processed.pt 
+    value: ./expert_datasets/walker.pt 
   vid-fps:
     value: 100 
   seed:

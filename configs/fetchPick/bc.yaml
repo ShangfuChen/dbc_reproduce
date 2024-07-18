@@ -1,49 +1,23 @@
 project: 'dbc-reproduce'
 program: dbc/main.py
 method: grid
-name: Pick-bc-1.25
+name: Pick-bc
 
 parameters:
   alg:
     value: bc 
   bc-num-epochs:
     value: 5000 
-  bc-state-norm:
-    value: True 
-  clip-actions:
-    value: True 
-  cuda:
-    value: True 
   depth:
     value: 2 
   hidden-dim:
     value: 750 
   env-name:
     value: FetchPickAndPlaceDiffHoldout-v0 
-  eval-interval:
-    value: 2000 
-  eval-num-processes:
-    value: 1 
-  log-interval:
-    value: 2000 
   lr:
-    value: 0.000005 
-  max-grad-norm:
-    value: -1 
-  normalize-env:
-    value: False 
-  num-eval:
-    value: 100 
-  num-render:
-    value: 1 
-  prefix:
-    value: bc 
-  save-interval:
-    value: 100000 
-  traj-batch-size:
-    value: 128 
+    value: 0.000005
   traj-load-path:
-    value: ./expert_datasets/pick_10000_clip.pt 
+    value: ./expert_datasets/pick.pt 
   vid-fps:
     value: 100 
   goal-noise-ratio:
