@@ -88,33 +88,31 @@ We specify how to train diffusion models and the location of configuration files
 
 ## Code Structure
 
-- `dbc`: method and custom environment code.
+- Methods:
   - `rl-toolkit/rlf/algos/il/dbc.py`: Algorithm of our method
   - `rl-toolkit/rlf/algos/il/bc.py`: Algorithm of BC
+- Environments:
   - `d4rl/d4rl/pointmaze/maze_model.py`: Maze2D task
   - `dbc/envs/fetch/custom_fetch.py`: Fetch Pick task.
   - `dbc/envs/hand/manipulate.py`: Hand Rotate task.
-- `rl-toolkit`: base RL code and code for imitation learning baselines from [rl-toolkit](https://github.com/ASzot/rl-toolkit).
-- `d4rl`: Codebase from [D4RL: Datasets for Deep Data-Driven Reinforcement Learning](https://github.com/rail-berkeley/d4rl) for Maze2D.
 
 ## Acknowledgement
-
+- This repo is based on the official PyTorch [implementation](https://github.com/clvrai/goal_prox_il) of the paper ["Generalizable Imitation Learning from Observation via Inferring Goal Proximity"](https://clvrai.github.io/goal_prox_il/)
+- Base RL code and code for imitation learning baselines from [rl-toolkit](https://github.com/ASzot/rl-toolkit).
+- The Maze2D environment is based on [D4RL: Datasets for Deep Data-Driven Reinforcement Learning](https://github.com/rail-berkeley/d4rl).(https://github.com/rail-berkeley/d4rl) for Maze2D.
 - The Fetch and Hand Rotate environments are with some tweaking from [OpenAI](https://github.com/openai/gym/tree/6df1b994bae791667a556e193d2a215b8a1e397a/gym/envs/robotics)
+- The [HalfCheetah](https://github.com/openai/gym/blob/master/gym/envs/mujoco/half_cheetah_v3.py) and the [Walker2d](https://github.com/openai/gym/blob/master/gym/envs/mujoco/walker2d_v3.py) environment is in OpenAI Gym.
 - The Ant environment is with some tweaking from [DnC](https://github.com/dibyaghosh/dnc)
-- The Maze2D environment is based on [D4RL: Datasets for Deep Data-Driven Reinforcement Learning](https://github.com/rail-berkeley/d4rl).
-- The Walker2d environment is in [OpenAI Gym](https://github.com/openai/gym/blob/master/gym/envs/mujoco/walker2d_v3.py).
-
-## Reference
-
-This repo is based on the official PyTorch [implementation](https://github.com/clvrai/goal_prox_il) of the paper ["Generalizable Imitation Learning from Observation via Inferring Goal Proximity"](https://clvrai.github.io/goal_prox_il/)
 
 ## Citation
 
 ```
-@article{wang2023diffusion,
-  title={Diffusion Model-Augmented Behavioral Cloning},
-  author={Wang, Hsiang-Chun and Chen, Shang-Fu and Hsu, Ming-Hao and Lai, Chun-Mao and Sun, Shao-Hua},
-  journal={arXiv preprint arXiv:2302.13335},
-  year={2023}
+@inproceedings{
+chen2024diffusion,
+title={Diffusion Model-Augmented Behavioral Cloning},
+author={Shang-Fu Chen and Hsiang-Chun Wang and Ming-Hao Hsu and Chun-Mao Lai and Shao-Hua Sun},
+booktitle={Forty-first International Conference on Machine Learning},
+year={2024},
+url={https://openreview.net/forum?id=OnidGtOhg3}
 }
 ```
