@@ -17,31 +17,33 @@ import wandb
 from dbc import ddpm
 import math
 
+
 # def linear_beta_schedule(timesteps):
-#     beta_start = 0.0001
-#     beta_end = 0.02
+#     """
+#     https://blog.csdn.net/g11d111/article/details/131326934
+#     linear schedule, proposed in original ddpm paper
+#     """
+#     scale = 1000 / timesteps
+#     beta_start = scale * 0.0001
+#     beta_end = scale * 0.02
 #     return torch.linspace(beta_start, beta_end, timesteps)
 
-def linear_beta_schedule(timesteps):
-    """
-    https://blog.csdn.net/g11d111/article/details/131326934
-    linear schedule, proposed in original ddpm paper
-    """
-    scale = 1000 / timesteps
-    beta_start = scale * 0.0001
-    beta_end = scale * 0.02
-    return torch.linspace(beta_start, beta_end, timesteps)
+# def cosine_beta_schedule(timesteps, s=0.008):
+#     """
+#     cosine schedule as proposed in https://arxiv.org/abs/2102.09672
+#     """
+#     steps = timesteps + 1
+#     x = torch.linspace(0, timesteps, steps)
+#     alphas_cumprod = torch.cos(((x / timesteps) + s) / (1 + s) * torch.pi * 0.5) ** 2
+#     alphas_cumprod = alphas_cumprod / alphas_cumprod[0]
+#     betas = 1 - (alphas_cumprod[1:] / alphas_cumprod[:-1])
+#     return torch.clip(betas, 0.0001, 0.9999)
 
-def cosine_beta_schedule(timesteps, s=0.008):
-    """
-    cosine schedule as proposed in https://arxiv.org/abs/2102.09672
-    """
-    steps = timesteps + 1
-    x = torch.linspace(0, timesteps, steps)
-    alphas_cumprod = torch.cos(((x / timesteps) + s) / (1 + s) * torch.pi * 0.5) ** 2
-    alphas_cumprod = alphas_cumprod / alphas_cumprod[0]
-    betas = 1 - (alphas_cumprod[1:] / alphas_cumprod[:-1])
-    return torch.clip(betas, 0.0001, 0.9999)
+# def quadratic_beta_schedule(timesteps):
+#     beta_start = 0.0001
+#     beta_end = 0.03 #0.02
+#     return torch.linspace(beta_start**0.5, beta_end**0.5, timesteps) ** 2
+
 
 def sigmoid_beta_schedule(timesteps):
     beta_start = 0.0001
@@ -49,10 +51,6 @@ def sigmoid_beta_schedule(timesteps):
     betas = torch.linspace(-6, 6, timesteps)
     return torch.sigmoid(betas) * (beta_end - beta_start) + beta_start
 
-def quadratic_beta_schedule(timesteps):
-    beta_start = 0.0001
-    beta_end = 0.03 #0.02
-    return torch.linspace(beta_start**0.5, beta_end**0.5, timesteps) ** 2
 
 class DBC(BaseILAlgo):
     """
@@ -75,7 +73,6 @@ class DBC(BaseILAlgo):
         self.action_dim = rutils.get_ac_dim(self.policy.action_space)
         if self.args.bc_state_norm:
             self.norm_mean = self.expert_stats["state"][0]
-            # self.norm_var = torch.pow(self.expert_stats["state"][1], 2)
             self.norm_std = self.expert_stats["state"][1]
         else:
             self.norm_mean = None
@@ -84,22 +81,9 @@ class DBC(BaseILAlgo):
         self.L1 = nn.L1Loss().cuda()
         self.coeff = args.coeff
         self.coeff_bc = args.coeff_bc
-        # num_steps = 1000
-        if args.scheduler_type == 'short-linear':
-            num_steps = 100
-            betas = linear_beta_schedule(num_steps)
-        if args.scheduler_type == 'linear':
-            num_steps = 1000
-            betas = linear_beta_schedule(num_steps)
-        elif args.scheduler_type == 'cosine':
-            num_steps = 100
-            betas = cosine_beta_schedule(num_steps)
-        elif args.scheduler_type == 'sigmoid':
-            num_steps = 1000
-            betas = sigmoid_beta_schedule(num_steps)
-        elif args.scheduler_type == 'quadratic':
-            num_steps = 1000
-            betas = quadratic_beta_schedule(num_steps)
+
+        num_steps = 1000
+        betas = sigmoid_beta_schedule(num_steps)
 
         if args.env_name[:4] == 'maze':
             dim = 8
@@ -113,12 +97,7 @@ class DBC(BaseILAlgo):
                                                      input_dim=dim,
                                                      num_units=1024,
                                                      depth=self.args.ddpm_depth).to(self.args.device)
-        elif args.env_name[:9] == 'FetchPush':
-            dim = 19
-            self.diff_model = ddpm.MLPDiffusion(num_steps, 
-                                                     input_dim=dim,
-                                                     num_units=1024,
-                                                     depth=self.args.ddpm_depth).to(self.args.device)
+
         elif args.env_name[:10] == 'CustomHand':
             dim = 88
             self.diff_model = ddpm.MLPDiffusion(num_steps,
@@ -137,7 +116,9 @@ class DBC(BaseILAlgo):
                                                 num_units=1024).to(self.args.device)
         elif args.env_name[:3] == 'Ant':
             dim = 50
-            self.diff_model = ddpm.MLPDiffusion(num_steps, input_dim = dim).to(self.args.device)
+            self.diff_model = ddpm.MLPDiffusion(num_steps,
+                                                input_dim=dim,
+                                                num_units=1024).to(self.args.device)
         weight_path = self.args.ddpm_path
         self.diff_model.load_state_dict(torch.load(weight_path))
 
@@ -145,16 +126,9 @@ class DBC(BaseILAlgo):
     def diffusion_loss_fn(self, model, x_0_pred, x_0_expert, alphas_bar_sqrt, one_minus_alphas_bar_sqrt, n_steps):
         batch_size = x_0_pred.shape[0]
 
-        if self.args.fix_step_when_get_loss:
-            t = torch.full((batch_size,), fill_value=self.args.fix_which_step_when_get_loss, dtype=torch.int64).to(self.args.device)
-            t = t.unsqueeze(-1) 
-        elif self.args.fix_range_when_get_loss:
-            t = torch.randint(49, 199, size=(batch_size,)).to(self.args.device)
-            t = t.unsqueeze(-1)
-        else:
-            t = torch.randint(0, n_steps, size=(batch_size//2,)).to(self.args.device)
-            t = torch.cat([t, n_steps-1-t], dim=0) #[batch_size, 1]
-            t = t.unsqueeze(-1)
+        t = torch.randint(0, n_steps, size=(batch_size//2,)).to(self.args.device)
+        t = torch.cat([t, n_steps-1-t], dim=0) #[batch_size, 1]
+        t = t.unsqueeze(-1)
 
         # coefficient of x0
         a = alphas_bar_sqrt[t].to(self.args.device)
@@ -172,10 +146,6 @@ class DBC(BaseILAlgo):
         # get predicted randome noise at time t
         output = model(x, t.squeeze(-1).to(self.args.device))
         output2 = model(x2, t.squeeze(-1).to(self.args.device))
-        # print(f"output: {output}")
-        # # input()
-        # print(f"output2: {output2}")
-        # input()
         
         # calculate the loss between actual noise and predicted noise
         loss = (e - output).square().mean()
@@ -184,22 +154,8 @@ class DBC(BaseILAlgo):
 
 
     def get_density(self, states, pred_action, expert_action):
-        # decide beta
-        if self.args.scheduler_type == 'short-linear':
-            num_steps = 100
-            betas = linear_beta_schedule(num_steps)
-        if self.args.scheduler_type == 'linear':
-            num_steps = 1000
-            betas = cosine_beta_schedule(num_steps)
-        elif self.args.scheduler_type == 'cosine':
-            num_steps = 100
-            betas = cosine_beta_schedule(num_steps)
-        elif self.args.scheduler_type == 'sigmoid':
-            num_steps = 1000
-            betas = cosine_beta_schedule(num_steps)
-        elif self.args.scheduler_type == 'quadratic':
-            num_steps = 1000
-            betas = cosine_beta_schedule(num_steps)
+        num_steps = 1000
+        betas = sigmoid_beta_schedule(num_steps)
         betas = betas.to(self.args.device)
         
         alphas = 1-betas
@@ -379,7 +335,7 @@ class DBC(BaseILAlgo):
         if not self.set_arg_defs:
             # This is set when BC is used at the same time as another optimizer
             # that also has a learning rate.
-            self.set_arg_prefix("bc")
+            self.set_arg_prefix("dbc")
 
         super().get_add_args(parser)
         #########################################
@@ -387,24 +343,11 @@ class DBC(BaseILAlgo):
         if self.set_arg_defs:
             parser.add_argument("--num-processes", type=int, default=1)
             parser.add_argument("--num-steps", type=int, default=0)
-            ADJUSTED_INTERVAL = 200
-            parser.add_argument("--log-interval", type=int, default=ADJUSTED_INTERVAL)
-            parser.add_argument(
-                "--save-interval", type=int, default=100 * ADJUSTED_INTERVAL
-            )
-            parser.add_argument(
-                "--eval-interval", type=int, default=100 * ADJUSTED_INTERVAL
-            )
         parser.add_argument("--no-wb", default=False, action="store_true")
 
         #########################################
         # New args
         parser.add_argument("--bc-num-epochs", type=int, default=1)
         parser.add_argument("--bc-noise", type=float, default=None)
-        parser.add_argument('--fix-step-when-get-loss', type=str2bool, default=False)
-        parser.add_argument('--fix-range-when-get-loss', type=str2bool, default=False)
-        parser.add_argument('--fix-which-step-when-get-loss', type=int, default=0)
         parser.add_argument('--num-units', type=int, default=128) #hidden dim of ddpm
         parser.add_argument('--ddpm-depth', type=int, default=4)
-        parser.add_argument('--scheduler-type', type=str, default='linear')
-        # linear #cosine #sigmoid #quadratic

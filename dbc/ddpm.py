@@ -10,38 +10,6 @@ import d4rl  # Import required to register environments
 from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 
-# def linear_beta_schedule(timesteps):
-#     beta_start = 0.0001
-#     beta_end = 0.02
-#     return torch.linspace(beta_start, beta_end, timesteps)
-
-
-# def linear_beta_schedule(timesteps):
-#     """
-#     https://blog.csdn.net/g11d111/article/details/131326934
-#     linear schedule, proposed in original ddpm paper
-#     """
-#     scale = 1000 / timesteps
-#     beta_start = scale * 0.0001
-#     beta_end = scale * 0.02
-#     return torch.linspace(beta_start, beta_end, timesteps)
-
-
-# def cosine_beta_schedule(timesteps, s=0.008):
-#     """
-#     cosine schedule as proposed in https://arxiv.org/abs/2102.09672
-#     """
-#     steps = timesteps + 1
-#     x = torch.linspace(0, timesteps, steps)
-#     alphas_cumprod = torch.cos(((x / timesteps) + s) / (1 + s) * torch.pi * 0.5) ** 2
-#     alphas_cumprod = alphas_cumprod / alphas_cumprod[0]
-#     betas = 1 - (alphas_cumprod[1:] / alphas_cumprod[:-1])
-#     return torch.clip(betas, 0.0001, 0.9999)
-
-# def quadratic_beta_schedule(timesteps):
-#     beta_start = 0.0001
-#     beta_end = 0.03  # 0.02
-#     return torch.linspace(beta_start**0.5, beta_end**0.5, timesteps) ** 2
 
 def sigmoid_beta_schedule(timesteps):
     beta_start = 0.0001
@@ -178,7 +146,7 @@ if __name__ == "__main__":
 
     ########### hyper parameter
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    batch_size = 128 #128
+    batch_size = 128
     num_epoch = args.num_epoch
     num_steps = 1000
     betas = sigmoid_beta_schedule(num_steps)
@@ -189,22 +157,7 @@ if __name__ == "__main__":
     image_save_path = 'data/dm/trained_imgs'
     if not os.path.exists(image_save_path):
         os.makedirs(image_save_path, exist_ok=True)
-    # decide beta
-    # if args.scheduler_type == 'short-linear':
-    #     num_steps = 100
-    #     betas = linear_beta_schedule(num_steps)
-    # if args.scheduler_type == 'linear':
-    #     num_steps = 1000
-    #     betas = linear_beta_schedule(num_steps)
-    # elif args.scheduler_type == "cosine":
-    #     num_steps = 100
-    #     betas = cosine_beta_schedule(num_steps)
-    # elif args.scheduler_type == "sigmoid":
-    #     num_steps = 1000
-    #     betas = sigmoid_beta_schedule(num_steps)
-    # elif args.scheduler_type == "quadratic":
-    #     num_steps = 1000
-    #     betas = quadratic_beta_schedule(num_steps)
+
     betas = torch.clip(betas, 0.0001, 0.9999).to(device)
 
     # calculate alpha、alpha_prod、alpha_prod_previous、alpha_bar_sqrt

@@ -82,7 +82,7 @@ We specify how to train diffusion models and the location of configuration files
 ### Ant Goal
 
 - Ours:
-    1. DM pretraining: `python dbc/ddpm.py --traj-load-path expert_datasets/ant.pt --num-epoch 8000 --lr 0.0002 --hidden-dim 1024`
+    1. DM pretraining: `python dbc/ddpm.py --traj-load-path expert_datasets/ant.pt --num-epoch 20000 --lr 0.0002 --hidden-dim 1024 --norm False`
     2. Policy learning: `./wandb.sh ./configs/antReach/dbc.yaml`
 - BC: `./wandb.sh ./configs/antReach/bc.yaml`
 

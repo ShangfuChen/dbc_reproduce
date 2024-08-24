@@ -1,7 +1,7 @@
 project: "dbc-reproduce"
 program: dbc/main.py
 method: grid
-name: "Ant-bc"
+name: "Ant-bc-lr2"
 
 parameters:
   alg:
@@ -17,10 +17,16 @@ parameters:
   env-name:
     value: AntGoal-v0 
   lr:
-    value: 0.006 
+    values: [0.01, 0.02] 
   seed:
     values: [1, 2, 3] 
   traj-load-path:
     value: ./expert_datasets/ant.pt 
   vid-fps:
     value: 100
+  bc-state-norm:
+    value: False
+  il-in-action-norm:
+    value: False
+  il-out-action-norm:
+    value: False

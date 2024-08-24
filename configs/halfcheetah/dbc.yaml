@@ -1,7 +1,7 @@
 project: 'dbc-reproduce'
 program: dbc/main.py
 method: grid
-name: "HalfCheetah-v3-dbc-lambda"
+name: "HalfCheetah-dbc"
 
 parameters:
   alg:
